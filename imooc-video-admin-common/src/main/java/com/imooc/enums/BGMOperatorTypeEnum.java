@@ -1,5 +1,6 @@
 package com.imooc.enums;
 
+//BGM枚举类
 public enum BGMOperatorTypeEnum {
 	
 	ADD("1", "添加bgm"),				

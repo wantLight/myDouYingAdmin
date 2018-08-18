@@ -15,19 +15,19 @@ public class LoginInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		
-//		String requestUrl = request.getRequestURI();
-//		requestUrl=requestUrl.replaceAll(request.getContextPath(), "");
-//		// 判断是否针对匿名路径需要拦截，如果包含，则表示匿名路径，需要拦截，否则通过拦截器
-//		if (unCheckUrls.contains(requestUrl)){
-//			// 包含公开url，直接跳过
-//			return true;
-//		}
-//
-//		if(null == request.getSession().getAttribute("sessionUser")){
-//			response.sendRedirect(request.getContextPath()+"/users/login.action");
-//
-//			return false;
-//		}
+		String requestUrl = request.getRequestURI();
+		requestUrl=requestUrl.replaceAll(request.getContextPath(), "");
+		// 判断是否针对匿名路径需要拦截，如果包含，则表示匿名路径，需要拦截，否则通过拦截器
+		if (unCheckUrls.contains(requestUrl)){
+			// 包含公开url，直接跳过
+			return true;
+		}
+
+		if(null == request.getSession().getAttribute("sessionUser")){
+			response.sendRedirect(request.getContextPath()+"/users/login.action");
+
+			return false;
+		}
 		
 		// 放行
 		return true;

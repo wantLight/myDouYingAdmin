@@ -11,22 +11,30 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.2.xsd">
 		
-	<description>zookeeper 放入spring容器，项目启动加载时建立与zk的链接</description>
-	<!--  创建重连策略 -->
-	<bean id="retryPolicy" class="org.apache.curator.retry.BoundedExponentialBackoffRetry">
-		<!--  重连等待时间 -->
-		<constructor-arg index="0" value="1000"/>
-		<!--  设置重连次数 -->
-		<constructor-arg index="1" value="5"/>
+	<description>zookeeper 放入spring容器，项目启动加载的时候就建立和zk的连接</description>
+	
+	<!-- 创建重连策略 -->
+	<bean id="retryPolicy" class="org.apache.curator.retry.ExponentialBackoffRetry">
+		<!-- 每次重试连接的等待时间 -->
+		<constructor-arg index="0" value="1000"></constructor-arg>
+		<!-- 设置的重连的次数 -->
+		<constructor-arg index="1" value="5"></constructor-arg>
 	</bean>
-
-	<!--  创建zookeeper客户端 -->
-	<bean id="client" class="org.apache.curator.framework.CuratorFrameworkFactory"
-		  factory-method="newClient" init-method="start">
-		<constructor-arg index="0" value="120.79.143.66:2181"/>
-		<constructor-arg index="1" value="10000"/>
-		<constructor-arg index="2" value="10000"/>
-		<constructor-arg index="3" value="retryPolicy"/>
+	
+	<!-- 创建zookeeper客户端 -->
+	<bean id="client" class="org.apache.curator.framework.CuratorFrameworkFactory" 
+		factory-method="newClient" init-method="start">
+		<constructor-arg index="0" value="120.79.143.66:2181"></constructor-arg>
+		<constructor-arg index="1" value="10000"></constructor-arg>
+		<constructor-arg index="2" value="10000"></constructor-arg>
+		<constructor-arg index="3" ref="retryPolicy"></constructor-arg>
 	</bean>
+	
+	<!-- 客户端配置 -->
+	<!-- init-method="init" 不使用zk的话，仅仅只是测试为了方便可以把这个方法暂时拿掉 -->
+	<bean id="ZKCurator" class="com.imooc.service.util.ZKCurator" init-method="init">
+		<constructor-arg index="0" ref="client"></constructor-arg>
+	</bean>
+	
 	
 </beans>

@@ -13,4 +13,9 @@ public interface VideoService {
     PagedResult queryBgmList(Integer page,Integer pageSize);
 
     void deleteBgm(String id);
+
+
+    PagedResult queryReportList(Integer page, Integer pageSize);
+
+    void updateVideoStatus(String videoId, Integer status);
 }
