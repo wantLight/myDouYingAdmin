@@ -48,13 +48,13 @@ public class ZKCurator {
     }
 
     //增加删除Bgm，向zk-server创建子节点，供小程序后端监听
-    public void sendBgmOperator(String bgmId, String operType){
+    public void sendBgmOperator(String bgmId, String operObj){
 
         try{
             client.create().creatingParentsIfNeeded()
                     .withMode(CreateMode.PERSISTENT)
                     .withACL(ZooDefs.Ids.OPEN_ACL_UNSAFE)
-                    .forPath("/bgm/"+bgmId,operType.getBytes());
+                    .forPath("/bgm/"+bgmId,operObj.getBytes());
         } catch (Exception e) {
             e.printStackTrace();
         }

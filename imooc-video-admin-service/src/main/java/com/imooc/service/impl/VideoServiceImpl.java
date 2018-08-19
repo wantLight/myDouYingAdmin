@@ -6,6 +6,7 @@ import com.imooc.mapper.UsersReportMapperCustom;
 import com.imooc.mapper.VideosMapper;
 import com.imooc.pojo.Videos;
 import com.imooc.pojo.vo.Reports;
+import com.imooc.utils.JsonUtils;
 import org.springframework.stereotype.Service;
 import com.imooc.enums.BGMOperatorTypeEnum;
 import com.imooc.mapper.BgmMapper;
@@ -18,7 +19,9 @@ import org.n3r.idworker.Sid;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.xml.ws.Action;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by xyzzg on 2018/8/17.
@@ -43,7 +46,11 @@ public class VideoServiceImpl implements VideoService{
         bgm.setId(bgmId);
         bgmMapper.insertSelective(bgm);
 
-        zkCurator.sendBgmOperator(bgmId,BGMOperatorTypeEnum.ADD.type);
+        Map<String,String> map = new HashMap <>();
+        map.put("operType",BGMOperatorTypeEnum.ADD.type);
+        map.put("path",bgm.getPath());
+
+        zkCurator.sendBgmOperator(bgmId,JsonUtils.objectToJson(map));
 
 
     }
@@ -74,9 +81,15 @@ public class VideoServiceImpl implements VideoService{
     @Override
     public void deleteBgm(String id) {
 
+        Bgm bgm = bgmMapper.selectByPrimaryKey(id);
+
         bgmMapper.deleteByPrimaryKey(id);
 
-        zkCurator.sendBgmOperator(id,BGMOperatorTypeEnum.DELETE.type);
+        Map<String,String> map = new HashMap <>();
+        map.put("operType",BGMOperatorTypeEnum.DELETE.type);
+        map.put("path",bgm.getPath());
+
+        zkCurator.sendBgmOperator(id,JsonUtils.objectToJson(map));
     }
 
     @Override

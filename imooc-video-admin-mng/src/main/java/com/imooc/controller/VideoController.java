@@ -88,6 +88,7 @@ public class VideoController {
     @PostMapping("/delBgm")
     @ResponseBody
     public IMoocJSONResult delBgm(String bgmId) {
+        //todo 未从上传保存位置删除
         videoService.deleteBgm(bgmId);
         return IMoocJSONResult.ok();
     }
@@ -98,7 +99,7 @@ public class VideoController {
 
         // 文件保存的命名空间
 //		String fileSpace = File.separator + "imooc_videos_dev" + File.separator + "mvc-bgm";
-        String fileSpace = "C:" + File.separator + "imooc_videos_dev" + File.separator + "mvc-bgm";
+        String fileSpace = "D:" + File.separator + "imooc_videos_dev" + File.separator + "mvcbgm";
         // 保存到数据库中的相对路径
         String uploadPathDB = File.separator + "bgm";
 
